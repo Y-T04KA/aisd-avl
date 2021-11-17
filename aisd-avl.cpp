@@ -83,17 +83,17 @@ Node* insert(Node* node, int key) {//а это
     return node;
 }
 
-void printNodeNLR(const Node* node, int key, int height, int prob){//prob - костыль для древоподобного вывода
+void printNodeNLR(const Node* node, int key, int height, int prob){//prob - for tree-like output
     if (node){
-        if (height == key){//тут мы центральную ноду мучаем
+        if (height == key){//get current node
             for (int i = 1; i <= prob; i++)
                 cout << " ";
             cout << node->key;
         }
         else{
-            printNodeNLR(node->left, key, height + 1, prob);//тут мы рекурсивно отправляемся в левую ветку
-            printNodeNLR(node->right, key, height + 1, prob);//тут мы отправляемся в правую
-        }//по идее, чтобы перейти к центрированному и обратному обходам надо просто поменять их местами
+            printNodeNLR(node->left, key, height + 1, prob);//go to left node
+            printNodeNLR(node->right, key, height + 1, prob);//go to right node
+        }
     }
     else
         cout << "     ";
@@ -108,24 +108,23 @@ void NLR(Node* node)
         for (int i = 0; i <= h; i++)
         {
             printNodeNLR(node, i, 0, prob * (h - i));
-            //printNode(node, height(node));
             cout << endl;
         }
     }
 }
 
-void printNodeLNR(const Node* node, int key, int height, int prob) {//prob - костыль для древоподобного вывода
+void printNodeLNR(const Node* node, int key, int height, int prob) {
     if (node) {
-        printNodeLNR(node->left, key, height + 1, prob);//тут мы рекурсивно отправляемся в левую ветку
-        if (height == key) {//тут мы центральную ноду мучаем
+        printNodeLNR(node->left, key, height + 1, prob);
+        if (height == key) {
             for (int i = 1; i <= prob; i++)
                 cout << " ";
             cout << node->key;
         }
         else {
             
-            printNodeLNR(node->right, key, height + 1, prob);//тут мы отправляемся в правую
-        }//по идее, чтобы перейти к центрированному и обратному обходам надо просто поменять их местами
+            printNodeLNR(node->right, key, height + 1, prob);
+        }
     }
     else
         cout << "     ";
@@ -140,22 +139,20 @@ void LNR(Node* node)
         for (int i = 0; i <= h; i++)
         {
             printNodeLNR(node, i, 0, prob * (h - i));
-            //printNode(node, height(node));
             cout << endl;
         }
     }
 }
 
-void printNodeLRN(const Node* node, int key, int height, int prob) {//prob - костыль для древоподобного вывода
+void printNodeLRN(const Node* node, int key, int height, int prob) {
     if (node) {
-        printNodeLRN(node->left, key, height + 1, prob);//тут мы рекурсивно отправляемся в левую ветку
-        printNodeLRN(node->right, key, height + 1, prob);//тут мы отправляемся в правую
-        if (height == key) {//тут мы центральную ноду мучаем
+        printNodeLRN(node->left, key, height + 1, prob);
+        printNodeLRN(node->right, key, height + 1, prob);
+        if (height == key) {
             for (int i = 1; i <= prob; i++)
                 cout << " ";
             cout << node->key;
         }
-        //по идее, чтобы перейти к центрированному и обратному обходам надо просто поменять их местами
     }
     else
         cout << "     ";
@@ -173,6 +170,12 @@ void LRN(Node* node)
             cout << endl;
         }
     }
+}
+
+void BFS(Node* node) {
+    int h = height(node);
+    int* queue = new int[h * 2];
+    //ok, i will use queue, but how to make tree-like output then?
 }
 
 Node* minValueNode(Node* node) {
