@@ -3,14 +3,6 @@
 
 using namespace std;
 
-/*class Node {//tree node
-public:
-    int key;
-    Node* left;
-    Node* right;
-    int height;
-};*/
-
 struct Node {
     int key;
     Node* left;
@@ -183,8 +175,6 @@ void LRN(Node* node)
     }
 }
 
-
-
 Node* minValueNode(Node* node) {
     Node* current = node;
     while (current->left != NULL) current = current->left;
@@ -236,17 +226,12 @@ int main()
     root = insert(root, 40);
     root = insert(root, 50);
     root = insert(root, 25);
-    root = insert(root, 72);
-    root = insert(root, 93);
-    root = insert(root, 49);
-    root = insert(root, 47);
     cout << "NLR Tree is\n";
     NLR(root);
     cout << "LNR Tree is\n";
     LNR(root);
     //cout << "LRN Tree is\n";
-    
-    root = deleteNode(root, 72);
+    root = deleteNode(root, 25);
     cout << "\nNew Tree via LRN is\n"; //TODO BFS
     LRN(root);
     return(0);
