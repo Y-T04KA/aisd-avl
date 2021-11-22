@@ -150,16 +150,12 @@ int find(Node* root, int k)
         find(root->left, k);
         find(root->right, k);
     }
-    //return 0;
-    //if (check == 0) cout << "\nthere is no such node\n";
 }
 
 void printBFS(const Node* node, int key, int height, int prob) {
 
-    if (node) {//doesn't look like an actual BFS, but output is like BFS so who cares?
+    if (node) {
         if (height == key) {//get current node
-            //for (int i = 1; i <= prob; i++)
-              //  cout << " ";
             cout << node->key;
             cout << " ";
         }
@@ -168,8 +164,6 @@ void printBFS(const Node* node, int key, int height, int prob) {
             printBFS(node->right, key, height + 1, prob);//go to right node
         }
     }
-    //else
-      //  cout << "     ";
 }
 
 void BFS(Node* node)
@@ -181,7 +175,6 @@ void BFS(Node* node)
         for (int i = 0; i <= h; i++)
         {
             printBFS(node, i, 0, prob * (h - i));
-            //cout << endl;
         }
     }
 }
@@ -192,7 +185,7 @@ Node* minValueNode(Node* node) {
     return current;
 }
 
-Node* deleteNode(Node* root, int key) {//à ïîèñê íîäû äëÿ óäàëåíèÿ ñ÷èòàåòñÿ çà ïîèñê?
+Node* deleteNode(Node* root, int key) {
     if (root == NULL) return root;
     if (key < root->key) root->left = deleteNode(root->left, key);
     else if (key > root->key) root->right = deleteNode(root->right, key);
