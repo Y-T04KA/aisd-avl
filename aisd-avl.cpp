@@ -1,5 +1,4 @@
 #include <iostream>
-#include <queue>
 
 using namespace std;
 
@@ -82,8 +81,8 @@ Node* insert(Node* node, int key) {//а это
     }
     return node;
 }
-
-void printNodeNLR(const Node* node, int key, int height, int prob){//prob - for tree-like output
+////////////////////////////////////////////////
+void printTree(const Node* node, int key, int height, int prob){//prob - for tree-like output
     if (node){
         if (height == key){//get current node
             for (int i = 1; i <= prob; i++)
@@ -91,15 +90,15 @@ void printNodeNLR(const Node* node, int key, int height, int prob){//prob - for 
             cout << node->key;
         }
         else{
-            printNodeNLR(node->left, key, height + 1, prob);//go to left node
-            printNodeNLR(node->right, key, height + 1, prob);//go to right node
+            printTree(node->left, key, height + 1, prob);//go to left node
+            printTree(node->right, key, height + 1, prob);//go to right node
         }
     }
     else
         cout << "     ";
 }
 
-void NLR(Node* node)
+void NLRTree(Node* node)
 {
     int h = height(node);
     int prob = 4;
@@ -107,30 +106,73 @@ void NLR(Node* node)
     {
         for (int i = 0; i <= h; i++)
         {
-            printNodeNLR(node, i, 0, prob * (h - i));
+            printTree(node, i, 0, prob * (h - i));
             cout << endl;
         }
     }
 }
+////////////////////////////////////////////////////////////////////////
+void preOrder(Node* root)
+{
+    if (root != NULL)
+    {
+        cout << root->key << " ";
+        preOrder(root->left);
+        preOrder(root->right);
+    }
+}
+void inOrder(Node* root)
+{
+    if (root != NULL)
+    {
+        inOrder(root->left);
+        cout << root->key << " ";
+        inOrder(root->right);
+    }
+}
+void postOrder(Node* root)
+{
+    if (root != NULL)
+    {
+        postOrder(root->left);
+        postOrder(root->right);
+        cout << root->key << " ";
+    }
+}
+int find(Node* root, int k)
+{
+    if (root != NULL)
+    {
+        if (root->key == k) {
+            cout << "\nfound node - " << root->key << endl;
+            return 1;
+        }
+        find(root->left, k);
+        find(root->right, k);
+    }
+    //return 0;
+    //if (check == 0) cout << "\nthere is no such node\n";
+}
 
-void printNodeLNR(const Node* node, int key, int height, int prob) {
-    if (node) {
-        printNodeLNR(node->left, key, height + 1, prob);
-        if (height == key) {
-            for (int i = 1; i <= prob; i++)
-                cout << " ";
+void printBFS(const Node* node, int key, int height, int prob) {
+
+    if (node) {//doesn't look like an actual BFS, but output is like BFS so who cares?
+        if (height == key) {//get current node
+            //for (int i = 1; i <= prob; i++)
+              //  cout << " ";
             cout << node->key;
+            cout << " ";
         }
         else {
-            
-            printNodeLNR(node->right, key, height + 1, prob);
+            printBFS(node->left, key, height + 1, prob);//go to left node
+            printBFS(node->right, key, height + 1, prob);//go to right node
         }
     }
-    else
-        cout << "     ";
+    //else
+      //  cout << "     ";
 }
 
-void LNR(Node* node)
+void BFS(Node* node)
 {
     int h = height(node);
     int prob = 4;
@@ -138,44 +180,10 @@ void LNR(Node* node)
     {
         for (int i = 0; i <= h; i++)
         {
-            printNodeLNR(node, i, 0, prob * (h - i));
-            cout << endl;
+            printBFS(node, i, 0, prob * (h - i));
+            //cout << endl;
         }
     }
-}
-
-void printNodeLRN(const Node* node, int key, int height, int prob) {
-    if (node) {
-        printNodeLRN(node->left, key, height + 1, prob);
-        printNodeLRN(node->right, key, height + 1, prob);
-        if (height == key) {
-            for (int i = 1; i <= prob; i++)
-                cout << " ";
-            cout << node->key;
-        }
-    }
-    else
-        cout << "     ";
-}
-
-void LRN(Node* node)
-{
-    int h = height(node);
-    int prob = 4;
-    if (node)
-    {
-        for (int i = 0; i <= h; i++)
-        {
-            printNodeLNR(node, i, 0, prob * (h - i));
-            cout << endl;
-        }
-    }
-}
-
-void BFS(Node* node) {
-    int h = height(node);
-    int* queue = new int[h * 2];
-    //ok, i will use queue, but how to make tree-like output then?
 }
 
 Node* minValueNode(Node* node) {
@@ -230,12 +238,21 @@ int main()
     root = insert(root, 50);
     root = insert(root, 25);
     cout << "NLR Tree is\n";
-    NLR(root);
-    cout << "LNR Tree is\n";
-    LNR(root);
-    //cout << "LRN Tree is\n";
+    NLRTree(root);
+    cout << "Pre-Order traversal\n";
+    preOrder(root);
+    cout << "\nIn-Order traversal 2\n";
+    inOrder(root);
+    cout << "\nPost-Order traversal 3\n";
+    postOrder(root);
+    cout << "\nquick and dirty BFS\n";
+    BFS(root);
+    int f = 0;
+    cout << "\nfind 25";
+    f = find(root, 25);
+    if (f == 0) { cout << "\nthere is no such node\n"; }
+    cout << "tree after deletion of 25\n";
     root = deleteNode(root, 25);
-    cout << "\nNew Tree via LRN is\n"; //TODO BFS
-    LRN(root);
+    NLRTree(root);
     return(0);
 }
